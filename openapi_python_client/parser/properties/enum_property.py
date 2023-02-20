@@ -51,7 +51,9 @@ class EnumProperty(Property):
 
     @staticmethod
     def values_from_list(
-        values: Union[Sequence[str], Sequence[int]], case_sensitive_enums: bool = False
+        values: Union[Sequence[str], Sequence[int]],
+        case_sensitive_enums: bool = False,
+        unique_enum_values: bool = False,
     ) -> Dict[str, ValueType]:
         """Convert a list of values into dict of {name: value}, where value can sometimes be None"""
         output: Dict[str, ValueType] = {}
@@ -72,6 +74,8 @@ class EnumProperty(Property):
                 sanitized_key = f"LITERAL_{sanitized_key}"
 
             if sanitized_key in output:
+                if unique_enum_values:
+                    continue
                 raise ValueError(f"Duplicate key {sanitized_key} in Enum")
 
             output[sanitized_key] = utils.remove_string_escapes(value)

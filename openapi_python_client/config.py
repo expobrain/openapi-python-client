@@ -36,6 +36,7 @@ class Config(BaseModel):
     field_prefix: str = "field_"
     http_timeout: int = 5
     case_sensitive_enums: bool = False
+    unique_enum_values: bool = False
 
     @staticmethod
     def load_from_path(path: Path) -> "Config":
