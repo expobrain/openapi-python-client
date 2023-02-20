@@ -38,6 +38,7 @@ def test_load_from_path(tmp_path: Path, filename, dump, relative):
         "package_name_override": "package_name",
         "package_version_override": "package_version",
         "case_sensitive_enums": True,
+        "unique_enum_values": True,
     }
     yml_file.write_text(dump(data))
 
@@ -49,3 +50,4 @@ def test_load_from_path(tmp_path: Path, filename, dump, relative):
     assert config.package_name_override == "package_name"
     assert config.package_version_override == "package_version"
     assert config.case_sensitive_enums == True
+    assert config.unique_enum_values == True
