@@ -404,7 +404,9 @@ def build_enum_property(
             ),
             schemas,
         )
-    values = EnumProperty.values_from_list(value_list, case_sensitive_enums=config.case_sensitive_enums)
+    values = EnumProperty.values_from_list(
+        value_list, case_sensitive_enums=config.case_sensitive_enums, unique_enum_values=config.unique_enum_values
+    )
 
     if class_info.name in schemas.classes_by_name:
         existing = schemas.classes_by_name[class_info.name]

@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Mapping, Sequence, Type, Union
 from unittest.mock import MagicMock, call
 
 import attr
@@ -418,6 +418,23 @@ class TestEnumProperty:
 
         with pytest.raises(ValueError):
             EnumProperty.values_from_list(data)
+
+    @pytest.mark.parametrize("data", [pytest.param(["abc", "Abc"])])
+    @pytest.mark.parametrize(
+        "case_sensitive_enums, expected",
+        [
+            pytest.param(False, {"ABC": "abc"}, id="Duplicate values without case sensitive"),
+            pytest.param(True, {"abc": "abc", "Abc": "Abc"}, id="Duplicate values without case sensitive"),
+        ],
+    )
+    def test_values_from_list_duplicate(
+        self, data: Sequence[Union[int, str]], case_sensitive_enums: bool, expected: Mapping[str, Union[str, int]]
+    ):
+        from openapi_python_client.parser.properties import EnumProperty
+
+        result = EnumProperty.values_from_list(data, unique_enum_values=True, case_sensitive_enums=case_sensitive_enums)
+
+        assert result == expected
 
 
 class TestPropertyFromData:
